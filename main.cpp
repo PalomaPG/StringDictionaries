@@ -2,7 +2,8 @@
 #include "TextProcessing.hpp"
 
 int main(){
-	Processor *processor = new Processor("/home/paloma/Documents/Personal/C++/Tarea2/input");
+	Processor *processor = new Processor("/home/paloma/Documents/Personal/C++/Tarea2/input/");
+    processor->getFilesInDir(0);
 
 	/*
 	Patricia* patricia = new Patricia();

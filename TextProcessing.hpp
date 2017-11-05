@@ -13,7 +13,6 @@
 #include <dirent.h>
 
 
-
 #include "Patricia.hpp"
 #include "LinearProbingHashing.hpp"
 #include "Ternary.hpp"
@@ -54,10 +53,11 @@ class Processor{
          * Recibe 0 o 1 como parametro para representar
          * texto.
          */
-        std::string getText();
+        std::string getText(int i);
         double similarityPatricia();
         double similarityHLP();
         double similarityTernary();
+        std::string getDir();
 
 
 };

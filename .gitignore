@@ -1,1 +1,20 @@
 # Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+#My ignored files
+main.o
+Makefile
+Patricia.o
+paty
+.idea/
+CMakeLists.txt
+cmake-build-debug/
+input/
+lib/

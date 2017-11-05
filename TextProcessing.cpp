@@ -7,12 +7,15 @@ int len(T(&)[sz]){
 
 
 Processor::Processor(std::string dirPath) {
-    DirPath = dirPath;
+    DirPath = dirPath.c_str();
+    //std::cout << dirPath << std::endl;
+    //std::cout << DirPath << std::endl;
+
     patricia = NULL;
 }
 
 Processor::~Processor() {
-    delete DirPath;
+    //delete DirPath;
 }
 
 std::string Processor::toLowerCase(std::string line) {
@@ -44,16 +47,33 @@ std::string Processor::removePunctuationAndStuff(std::string line) {
     return line;
 }
 
+
 void Processor::getFilesInDir(int pow){
 
-    DIR *dir;
-    class dirent *ent;
-    class stat st;
 
+    DIR *dir;
+    struct dirent *ent;
+    std::cout << DirPath << std::endl;
+
+    if((dir=opendir(DirPath.c_str())) !=NULL){
+        while((ent = readdir(dir)) !=NULL){
+
+            if(ent->d_type==DT_REG) {
+                printf("%s\n", ent->d_name);
+                files.push_back(DirPath+std::string(ent->d_name));
+            }
+        }
+        closedir(dir);
+    }else{
+        std::cout << DirPath << std::endl;
+        perror("Error al leer");
+        return;
+    }
 
 }
 
-std::string Processor::getText() {
+std::string Processor::getText(int i) {
+
 
 }
 
@@ -67,4 +87,8 @@ double Processor::similarityHLP() {
 
 double Processor::similarityTernary() {
     return 0;
+}
+
+std::string Processor::getDir() {
+    return DirPath;
 }
