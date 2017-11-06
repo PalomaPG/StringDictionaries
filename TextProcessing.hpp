@@ -5,10 +5,12 @@
 #include <cstdio>
 #include <cctype>
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include <bits/stdc++.h>
 #include <vector>
 #include <algorithm>
+#include <string>
 #include <iterator>
 #include <dirent.h>
 
@@ -16,6 +18,8 @@
 #include "Patricia.hpp"
 #include "LinearProbingHashing.hpp"
 #include "Ternary.hpp"
+
+using namespace std;
 
 const char Sigma[] =
         {
@@ -29,35 +33,39 @@ const char Sigma[] =
 class Processor{
 
     private:
-        std::string DirPath;
-        std::vector <std::string> files;
+        string DirPath;
+        vector <string> files;
+        vector <string> words;
+        /*T1 y T2 en texts*/
+        vector <string> texts;
+        unsigned int n_words;
         Patricia patricia;
         /**
          *Funciones para remover
          */
-        std::string toLowerCase(std::string);
-        std::string removePunctuationAndStuff(std::string);
-        std::string removeNumbers(std::string);
+        string toLowerCase(string);
+        string removePunctuationAndStuff(string);
+        string removeNumbers(string);
         int countWords();
 
     public:
-        Processor(std::string);
+        Processor(string, unsigned int n_w);
         ~Processor();
         /**
          * Dos archivos con largo similar
          */
-        void getFilesInDir(int pow);
+        void listFilesInDir();
 
         /**
          * Retorna string de archivo preprocesado
          * Recibe 0 o 1 como parametro para representar
          * texto.
          */
-        std::string getText(int i);
+        string getText(unsigned int i);
         double similarityPatricia();
         double similarityHLP();
         double similarityTernary();
-        std::string getDir();
+        string getDir();
 
 
 };

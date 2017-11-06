@@ -6,10 +6,11 @@ int len(T(&)[sz]){
 }
 
 
-Processor::Processor(std::string dirPath) {
+Processor::Processor(string dirPath, unsigned int n_w) {
     DirPath = dirPath.c_str();
-    //std::cout << dirPath << std::endl;
-    //std::cout << DirPath << std::endl;
+    n_words = n_w;
+    //cout << dirPath << endl;
+    //cout << DirPath << endl;
 
     patricia = NULL;
 }
@@ -18,62 +19,85 @@ Processor::~Processor() {
     //delete DirPath;
 }
 
-std::string Processor::toLowerCase(std::string line) {
+string Processor::toLowerCase(string line) {
 
     int i=0;
     while(line[i]){
         line[i] = tolower(line[i]);
+        i++;
     }
     return line;
 }
 
-std::string Processor::removeNumbers(std::string line) {
+string Processor::removeNumbers(string line) {
     const char numbers[]={'1','2', '3', '4', '5', '6',
     '7', '8', '9', '0'};
     for(int i=0; i<len(numbers) ; i++)
-        std::remove_copy(line.begin(), line.end(), std::back_inserter(line), numbers[i]);
+        line.erase(remove(line.begin(), line.end(), numbers[i]), line.end());
+        //remove_copy(line.begin(), line.end(), back_inserter(line), numbers[i]);
 
     return line;
 
 }
 
-std::string Processor::removePunctuationAndStuff(std::string line) {
+string Processor::removePunctuationAndStuff(string line) {
 
-    const char punctuations[] = {'.', ',', ':', ';', '\'', '\n', '\"'};
+    const char punctuations[] = {'-','.', ',', ':', ';', '\'',
+                                 '\n', '\"', '/', '@', '(', ')',
+                                '\'', '$', '%', '#', '?', '\"',
+                                 '!', '*', 34};
 
     for(int i=0; i<len(punctuations) ; i++)
-        std::remove_copy(line.begin(), line.end(), std::back_inserter(line), punctuations[i]);
+        line.erase(remove(line.begin(), line.end(), punctuations[i]), line.end());
+        //remove_copy(line.begin(), line.end(), back_inserter(line), punctuations[i]);
 
     return line;
 }
 
 
-void Processor::getFilesInDir(int pow){
+void Processor::listFilesInDir(){
 
 
     DIR *dir;
     struct dirent *ent;
-    std::cout << DirPath << std::endl;
+    cout << DirPath << endl;
 
     if((dir=opendir(DirPath.c_str())) !=NULL){
         while((ent = readdir(dir)) !=NULL){
 
             if(ent->d_type==DT_REG) {
                 printf("%s\n", ent->d_name);
-                files.push_back(DirPath+std::string(ent->d_name));
+                files.push_back(DirPath+string(ent->d_name));
             }
         }
         closedir(dir);
     }else{
-        std::cout << DirPath << std::endl;
+        cout << DirPath << endl;
         perror("Error al leer");
         return;
     }
 
 }
 
-std::string Processor::getText(int i) {
+string Processor::getText(unsigned int i) {
 
+    string line;
+    string text="";
+    ifstream infile (files.at(i));
+    if(infile.is_open()){
+        while(getline(infile, line)){
+            line = this->toLowerCase(line);
+            line = this->removePunctuationAndStuff(line);
+            line = this->removeNumbers(line);
+            cout << line <<endl;
+            text = text+line;
+        }
+        infile.close();
+    }else{
+        cout << "unable to open file" << endl;
+    }
+
+    return line;
 
 }
 
@@ -89,6 +113,6 @@ double Processor::similarityTernary() {
     return 0;
 }
 
-std::string Processor::getDir() {
+string Processor::getDir() {
     return DirPath;
 }
