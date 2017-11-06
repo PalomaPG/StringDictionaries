@@ -5,13 +5,50 @@ int len(T(&)[sz]){
     return sz;
 }
 
+vector<string> split(string line){
+    vector<string> w;
+    string delimiter = " ";
+    size_t pos =0;
+    string token;
+
+    while((pos = line.find(delimiter))!=string::npos){
+        token = line.substr(0,pos);
+        w.push_back(token);
+        //cout<< token << endl;
+        line.erase(0, pos + delimiter.length());
+    }
+    //cout << line << endl;
+    return w;
+}
+
+void checkWords(vector<string> vec){
+    for(unsigned int i=0; i<vec.size();i++)
+        cout<< vec.at(i) <<endl;
+}
+
+void Processor::selectWords(string line, unsigned int i){
+    /*Splitea line en un arreglo de strings*/
+    vector<string> ws =split(line);
+    double r;
+    /*Selecciona las palabras de acuerdo a criterio azaroso*/
+
+    for(unsigned int j=0; j<ws.size(); j++){
+        r = ((double) rand() / (RAND_MAX));
+        if(r>0.5) {
+            if(i==0 && t1_words.size()<n_words && (ws.at(j)).length()>0)
+                t1_words.push_back(ws.at(j));
+
+            else if(i==1 && t2_words.size()<n_words && (ws.at(j)).length()>0)
+                t2_words.push_back(ws.at(j));
+            else break;
+        }
+    }
+
+}
 
 Processor::Processor(string dirPath, unsigned int n_w) {
     DirPath = dirPath.c_str();
     n_words = n_w;
-    //cout << dirPath << endl;
-    //cout << DirPath << endl;
-
     patricia = NULL;
 }
 
@@ -34,10 +71,8 @@ string Processor::removeNumbers(string line) {
     '7', '8', '9', '0'};
     for(int i=0; i<len(numbers) ; i++)
         line.erase(remove(line.begin(), line.end(), numbers[i]), line.end());
-        //remove_copy(line.begin(), line.end(), back_inserter(line), numbers[i]);
 
     return line;
-
 }
 
 string Processor::removePunctuationAndStuff(string line) {
@@ -45,11 +80,10 @@ string Processor::removePunctuationAndStuff(string line) {
     const char punctuations[] = {'-','.', ',', ':', ';', '\'',
                                  '\n', '\"', '/', '@', '(', ')',
                                 '\'', '$', '%', '#', '?', '\"',
-                                 '!', '*', 34};
+                                 '!', '*', '\t', '[', ']'};
 
     for(int i=0; i<len(punctuations) ; i++)
         line.erase(remove(line.begin(), line.end(), punctuations[i]), line.end());
-        //remove_copy(line.begin(), line.end(), back_inserter(line), punctuations[i]);
 
     return line;
 }
@@ -76,7 +110,6 @@ void Processor::listFilesInDir(){
         perror("Error al leer");
         return;
     }
-
 }
 
 string Processor::getText(unsigned int i) {
@@ -89,16 +122,26 @@ string Processor::getText(unsigned int i) {
             line = this->toLowerCase(line);
             line = this->removePunctuationAndStuff(line);
             line = this->removeNumbers(line);
-            cout << line <<endl;
+            //cout << line <<endl;
+            selectWords(line, i);
             text = text+line;
         }
         infile.close();
     }else{
         cout << "unable to open file" << endl;
     }
+    /*Asumimos que siempre se agregan en orden, primero 0 (T1) y despues
+     * 1 (T2)*/
+    //checkWords(t1_words);
+    return text;
 
-    return line;
+}
 
+void Processor::setTexts() {
+
+    listFilesInDir();
+    texts.push_back(getText(0));
+    texts.push_back(getText(1));
 }
 
 double Processor::similarityPatricia() {
@@ -111,8 +154,4 @@ double Processor::similarityHLP() {
 
 double Processor::similarityTernary() {
     return 0;
-}
-
-string Processor::getDir() {
-    return DirPath;
 }

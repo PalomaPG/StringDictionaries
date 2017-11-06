@@ -35,7 +35,8 @@ class Processor{
     private:
         string DirPath;
         vector <string> files;
-        vector <string> words;
+        vector <string> t1_words;
+        vector <string> t2_words;
         /*T1 y T2 en texts*/
         vector <string> texts;
         unsigned int n_words;
@@ -62,10 +63,12 @@ class Processor{
          * texto.
          */
         string getText(unsigned int i);
+        void setTexts();
         double similarityPatricia();
         double similarityHLP();
         double similarityTernary();
-        string getDir();
+        void selectWords(string line, unsigned int i);
+        //string getDir();
 
 
 };

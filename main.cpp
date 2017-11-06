@@ -3,8 +3,8 @@
 
 int main(){
 	Processor *processor = new Processor("/home/paloma/Documents/Personal/C++/Tarea2/input/", 100);
-    processor->listFilesInDir();
-    processor->getText(0);
+    processor->setTexts();
+
 
 	/*
 	Patricia* patricia = new Patricia();
