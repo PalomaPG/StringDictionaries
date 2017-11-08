@@ -144,6 +144,12 @@ void Processor::setTexts() {
     texts.push_back(getText(1));
 }
 
+
+void Processor::initPatricia() {
+    patricia = new Patricia();
+
+}
+
 double Processor::similarityPatricia() {
     return 0;
 }

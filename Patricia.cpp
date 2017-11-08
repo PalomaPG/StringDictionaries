@@ -1,93 +1,96 @@
+//
+// Created by paloma on 07-11-17.
+//
 #include "Patricia.hpp"
-
-/* Node */
+/**
+ * Constructor de Node
+ */
 Node::Node(){}
 
-/* Root */
-Root::Root(){
+/***
+ * ROOT
+ */
+
+/**
+ * Constructor de Root
+ */
+Root::Root() {}
+
+/**
+ * Busca palabra en diccionario
+ * @param node
+ * @param word
+ * @return Hoja con indices de posicion
+ */
+Leaf* Root::search(Node* node,string word) {
+
+    /*Si este nodo no tiene hijos*/
+    if(this->children.size()==0) NULL;
+
+    /*Si tiene hijos...*/
+    else{
+        char c = word[0];
+        for(unsigned int j=0; j<(this->children.size()); j++){
+            string label = this->labels.at(j);
+            char c_aux = label[0];
+            /*Posibilidades de encontrar word*/
+            if(c==c_aux){
+                /*palabras iguales, incluyendo delimitador,
+                 * por lo que el hijo es una hoja*/
+                if(word.compare(label)==0){
+                    Node* node = this->children.at(j);
+                    Leaf* leaf = dynamic_cast<Leaf*>(node);
+                    return leaf;
+                }
+                else{
+
+                    if(word.size() < label.size()) NULL;
+                    else{
+                        string q_label=word.substr(0, label.size());
+                        Node* node = this->children.at(j);
+                        if(q_label.compare(label)!=0) NULL;
+                        else{
+                            /*Llamado recursivo sobre nodo interno*/
+                            return search( dynamic_cast<InnerNode*>(node), word.substr(label.size()));
+                        }
+
+                    }
+                }
+            }
+
+        }
+        return NULL;
+    }
 }
 
-std::vector<Node*> Root::getChildren(){
-	return children;
-}
 
-bool Root::insertWord(const char *s, int i){
+/**
+ * Inserta palabra en arbol
+ * @param word Palabra a insertar
+ * @param i posicion de palabra en texto
+ */
+void Root::insertWord(Node* node, string word, unsigned int i) {
 
-	if(children.size()==0){
-		/*Vacio*/
-		Leaf* leaf = new Leaf(i);
-		leaf->insertWord(s);
-		children.push_back(leaf);
-		return true;
-	}
-	else return false;
-	/*
-	else{
+    Leaf* result = this->search(node, word);
+    if(result!=NULL){
+        result->addPositions(i);
+    }
+    else{
+        /*Agregar nueva palabra*/
 
-	}*/
-
+    }
 
 }
 
-/*Leaf*/
-Leaf::Leaf(int i){
-	label=NULL;
-	index=i;
+/**
+ *
+ * @return vector de posiciones de string en texto
+ */
+vector<unsigned int> Leaf::getPositions() {
+    return this->positions;
 }
 
-
-bool Leaf::insertWord(const char* s){
-	label=s;
-	/*Verificar si el label es null ya esta definido*/
-	return true;
-}
-
-int Leaf::getIndex(){
-	return index;
-}
-
-
-const char* Leaf::getLabel(){
-	return label;
-}
-/*Patricia Trie*/
-
-Patricia::Patricia(){
-	root=new Root();
-	index=0;
-
-}
-
-Patricia::Patricia(const char* s){
-	root=new Root();
-	root->insertWord(s, index+1);
-	index++;
-}
-int Patricia::getIndex(){
-	return index;
-}
-
-void Patricia::insert(const char* s){
-
-	root->insertWord(s, index+1);
-	index++;
-}
-
-void Patricia::printTree(Node* node){
-
-	if(dynamic_cast<Leaf*>(node)!=nullptr)
-		std::cout << dynamic_cast<Leaf*>(node)->getLabel() << std::endl;
-
-	else if(node == root)
-		std::cout << "sfasfafdfadsfs" << std::endl;
-	//else std::cout << node.getLabel << std.endl;
-	/*else{
-		for(int i=0; i<root.size(); i++){
-
-		}
-	}*/
-}
-
-Patricia::~Patricia(){
+void Leaf::addPositions(unsigned int i) {
+    this->positions.push_back(i);
 
 }

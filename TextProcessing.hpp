@@ -40,7 +40,7 @@ class Processor{
         /*T1 y T2 en texts*/
         vector <string> texts;
         unsigned int n_words;
-        Patricia patricia;
+        Patricia *patricia;
         /**
          *Funciones para remover
          */
@@ -64,10 +64,21 @@ class Processor{
          */
         string getText(unsigned int i);
         void setTexts();
+        void selectWords(string line, unsigned int i);
+
+        /**
+         * Inizializa diccionarios
+         */
+        void initPatricia();
+        //void initHLP();
+        //void initTernary();
+
+        /**
+         * Calcula similitudes entre textos por cada diccionario
+         * */
         double similarityPatricia();
         double similarityHLP();
         double similarityTernary();
-        void selectWords(string line, unsigned int i);
         //string getDir();
 
 
