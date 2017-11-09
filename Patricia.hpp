@@ -16,9 +16,7 @@ class Node{
 		virtual ~Node(){};
 		virtual void insertWord(Node* node, string word, unsigned int i)=0;
 		virtual Leaf* search(Node* node, string word)=0;
-        virtual vector<unsigned int> getPositions()=0;
-
-    virtual void destroyNode(Node* node)=0;
+        virtual void destroyNode(Node* node)=0;
 
 
 };
@@ -31,8 +29,7 @@ class Leaf:public Node{
 	public:
 		Leaf(unsigned int i);
         vector<unsigned int> getPositions();
-
-    void addPositions(unsigned int i);
+        void addPositions(unsigned int i);
 };
 
 class Root: public Node{
@@ -44,9 +41,9 @@ class Root: public Node{
 	public:
 		Root();
 		vector<Node*> getChildren();
-		vector<Node*> getLabels();
-		void setChildren();
-		void setLabels();
+		vector<string> getLabels();
+		void setChildren(vector<Node*> new_children);
+		void setLabels(vector<string> new_labels);
         void insertWord(Node* node, string word, unsigned int i);
         Leaf*search(Node* node,string word);
 };
@@ -59,9 +56,11 @@ class InnerNode: public Node{
 	public:
 		InnerNode();
 		vector<Node*> getChildren();
-		vector<Node*> getLabels();
-		void setChildren();
-		void setLabels();
+		vector<string> getLabels();
+		void setChildren(vector<Node*> new_children);
+		void setLabels(vector<string> new_labels);
+        void insertWord(Node* node, string word, unsigned int i);
+        Leaf*search(Node* node,string word);
 
 
 };

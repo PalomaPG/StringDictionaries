@@ -25,7 +25,7 @@ Root::Root() {}
 Leaf* Root::search(Node* node,string word) {
 
     /*Si este nodo no tiene hijos*/
-    if(this->children.size()==0) NULL;
+    if(this->children.empty()) NULL;
 
     /*Si tiene hijos...*/
     else{
@@ -74,13 +74,100 @@ void Root::insertWord(Node* node, string word, unsigned int i) {
     Leaf* result = this->search(node, word);
     if(result!=NULL){
         result->addPositions(i);
+        return;
     }
     else{
         /*Agregar nueva palabra*/
+        char c = word[0];
+
+        for(int j=0;j<this->children.size(); j++){
+            string q_label = this->labels.at(j);
+            /*Si existe label que comience con tal letra*/
+            if(c==q_label[0]){
+                /*Verificar hijo del nodo: hoja o interno*/
+                Node* child = this->children.at(j);
+                Leaf* leaf;
+                if((leaf=dynamic_cast<Leaf*>(child))==NULL){
+                    /*Si se trata de un nodo interno*/
+
+                    /*Extraer el maximo prefijo comumn
+                     * antes de llegar al nodo*/
+
+
+                }
+                else{
+                    /*Si es una hoja*/
+                    /*Calcular maximo prefijo comun*/
+
+                }
+
+
+            }
+        }
+
+        this->labels.push_back(word);
+        this->children.push_back(new Leaf(i));
+        return;
 
     }
 
 }
+/**
+ * @return
+ */
+vector<Node*>Root::getChildren(){
+    return this->children;
+}
+
+/**
+ * @return
+ */
+vector<string> Root::getLabels(){
+    return this->labels;
+}
+
+
+void Root::setChildren(vector<Node*> new_children){
+    this->children = new_children;
+}
+void Root::setLabels(vector<string> new_labels){
+    this->labels = new_labels;
+}
+
+
+InnerNode::InnerNode() {}
+
+void InnerNode::insertWord(Node* node, string word, unsigned int i){
+
+}
+
+Leaf* InnerNode::search(Node* node,string word){
+    return NULL;
+}
+
+/**
+ * @return
+ */
+vector<Node*>InnerNode::getChildren(){
+    return this->children;
+}
+
+/**
+ * @return
+ */
+vector<string> InnerNode::getLabels(){
+    return this->labels;
+}
+
+
+
+void InnerNode::setChildren(vector<Node*> new_children){
+    this->children = new_children;
+}
+void InnerNode::setLabels(vector<string> new_labels){
+    this->labels = new_labels;
+}
+
 
 /**
  *
@@ -92,5 +179,23 @@ vector<unsigned int> Leaf::getPositions() {
 
 void Leaf::addPositions(unsigned int i) {
     this->positions.push_back(i);
+}
 
+
+
+Patricia::Patricia() {
+    this->root = new Root();
+}
+
+vector<unsigned int> Patricia::search(string word){
+    return this->root->search(NULL, word)->getPositions();
+}
+
+void Patricia::insert(string word, unsigned int i){
+    this->root->insertWord(this->root, word, i);
+}
+
+float Patricia::space() {
+    /*Calcular recursivamente*/
+    return 0;
 }
