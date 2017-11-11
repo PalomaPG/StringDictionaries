@@ -47,7 +47,6 @@ class Processor{
         string toLowerCase(string);
         string removePunctuationAndStuff(string);
         string removeNumbers(string);
-        int countWords();
 
     public:
         Processor(string, unsigned int n_w);
@@ -67,6 +66,7 @@ class Processor{
         vector<string> getT2words();
         void setTexts();
         void selectWords(string line, unsigned int i);
+        void printWords(vector<string> v);
 
         /**
          * Inizializa diccionarios
@@ -85,6 +85,7 @@ class Processor{
 
         void insertIntoLPH(vector<string> v);
 
+        LinearProbingHashing* getLPH();
 };
 
 

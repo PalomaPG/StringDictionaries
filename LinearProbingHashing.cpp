@@ -1,43 +1,12 @@
 #include "LinearProbingHashing.hpp"
 
 
-HashNode::HashNode(unsigned int key, string value) {
+/**
+ * LINEAR PROBING HASH
+ * **/
 
-    this->key = key;
-    this->value = value;
-    this->next = NULL;
-}
-
-unsigned int HashNode::getKey() {
-    return this->key;
-}
-
-string HashNode::getValue() {
-    return this->value;
-}
-
-HashNode* HashNode::getNext() {
-    return this->next;
-}
-
-void HashNode::setValue(string s) {
-    this->value=s;
-}
-
-
-void HashNode::setKey(unsigned int k) {
-    this->key = k;
-}
-
-void HashNode::setNext(HashNode *n) {
-    this->next=n;
-}
-
-LinearProbingHashing::LinearProbingHashing(unsigned int size) {
-
-    this->size = size;
-
-
+LinearProbingHashing::LinearProbingHashing() {
+    table= new string[SIZE];
 }
 unsigned int LinearProbingHashing::h(string s) {
 
@@ -45,17 +14,50 @@ unsigned int LinearProbingHashing::h(string s) {
 
     for(int i=0; i<s.size(); i++){
         unsigned char c = s[i];
-        calc_val+= (unsigned int)(c*pow(this->size, (double)i));
+
+        calc_val+= (unsigned int)(c*pow((double)SIZE, (double)i));
     }
 
-    return calc_val % this->size;
+    return calc_val % SIZE;
 }
 
 void LinearProbingHashing::insert(string word) {
 
-    cout << this->h(word) << endl;
+    unsigned int init_index =  this->h(word);
+
+    unsigned int index = init_index;
+    string aux = table[index];
+
+    if(aux.compare("")==0){
+        table[index] = word;
+        return;
+    }
+    while(aux.compare("")!=0 && init_index!=index){/*La ultima condicion indica que da vuelta*/
+        index = index+1;
+        aux = table[index % SIZE];
+    }
+
+    if(aux.compare("")==0 && init_index!=index){
+        table[index] = word;
+        return;
+    }
+    return;
 }
 
+
 vector<unsigned int> LinearProbingHashing::search(string s) {
+
+
     return vector<unsigned int>();
+}
+
+void LinearProbingHashing::printTable() {
+
+    for(int i=0; i<SIZE; i++){
+        string aux = table[i];
+
+        if(aux.compare("")!=0){
+            cout <<  aux <<endl;
+        }
+    }
 }

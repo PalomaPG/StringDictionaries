@@ -4,7 +4,9 @@ int main(){
 	Processor *processor = new Processor("/home/paloma/Documents/Personal/C++/Tarea2/input/", 100);
     processor->setTexts();
     processor->initLPH();
+    //processor->printWords(processor->getT1words());
     processor->insertIntoLPH(processor->getT1words());
+    processor->getLPH()->printTable();
 
 	return 0;
 }

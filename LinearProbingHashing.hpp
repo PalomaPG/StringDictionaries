@@ -1,5 +1,6 @@
 #ifndef LINPROBHASH_H_
 #define LINPROBHASH_H_
+const unsigned int SIZE=611671;
 
 #include <iostream>
 #include <cstdio>
@@ -10,36 +11,18 @@
 
 using namespace std;
 
-class HashNode{
-
-    private:
-        unsigned int key;
-        string value;
-        HashNode* next;
-
-    public:
-        HashNode(unsigned int key, string value);
-        unsigned int getKey();
-        string getValue();
-        void setValue(string s);
-        void setKey(unsigned int k);
-        HashNode* getNext();
-        void setNext(HashNode* n);
-};
-
-
-
 class LinearProbingHashing{
 
     private:
-        unsigned int size;
+        //unsigned int size;
+        string *table;
 
     public:
-        LinearProbingHashing(unsigned int size);
+        LinearProbingHashing();
         unsigned int h(string s);
-        void createTable();
         vector<unsigned int> search(string s);
         void insert(string word);
+        void printTable();
         ~LinearProbingHashing();
 
 };

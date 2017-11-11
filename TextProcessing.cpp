@@ -141,15 +141,13 @@ void Processor::setTexts() {
 
     listFilesInDir();
     texts.push_back(getText(0));
-    //cout<< "Hola que tal" << endl;
-    texts.push_back(getText(1));
-    //cout<< "Hola que tal" << endl;
+    //texts.push_back(getText(1));
 }
 
 void Processor::initLPH() {
 
     cout << "inciando LPH" << endl;
-    lph = new LinearProbingHashing(611671);
+    lph = new LinearProbingHashing();
     cout << "end init LPH" << endl;
 }
 
@@ -181,4 +179,14 @@ vector<string> Processor::getT1words() {
 
 vector<string> Processor::getT2words() {
     return this->t2_words;
+}
+
+LinearProbingHashing* Processor::getLPH() {
+    return lph;
+}
+
+void Processor::printWords(vector<string> v) {
+    for(int i=0; i<v.size(); i++){
+        cout<< v.at(i) << endl;
+    }
 }
