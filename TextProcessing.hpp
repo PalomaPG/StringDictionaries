@@ -15,7 +15,6 @@
 #include <dirent.h>
 
 
-#include "Patricia.hpp"
 #include "LinearProbingHashing.hpp"
 #include "Ternary.hpp"
 
@@ -40,7 +39,8 @@ class Processor{
         /*T1 y T2 en texts*/
         vector <string> texts;
         unsigned int n_words;
-        Patricia *patricia;
+        //Patricia* patricia;
+        LinearProbingHashing* lph;
         /**
          *Funciones para remover
          */
@@ -63,14 +63,16 @@ class Processor{
          * texto.
          */
         string getText(unsigned int i);
+        vector<string> getT1words();
+        vector<string> getT2words();
         void setTexts();
         void selectWords(string line, unsigned int i);
 
         /**
          * Inizializa diccionarios
          */
-        void initPatricia();
-        //void initHLP();
+        //void initPatricia();
+        void initLPH();
         //void initTernary();
 
         /**
@@ -81,6 +83,7 @@ class Processor{
         double similarityTernary();
         //string getDir();
 
+        void insertIntoLPH(vector<string> v);
 
 };
 

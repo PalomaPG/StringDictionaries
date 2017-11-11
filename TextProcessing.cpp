@@ -49,7 +49,7 @@ void Processor::selectWords(string line, unsigned int i){
 Processor::Processor(string dirPath, unsigned int n_w) {
     DirPath = dirPath.c_str();
     n_words = n_w;
-    patricia = NULL;
+    //patricia = NULL;
 }
 
 Processor::~Processor() {
@@ -141,14 +141,27 @@ void Processor::setTexts() {
 
     listFilesInDir();
     texts.push_back(getText(0));
+    //cout<< "Hola que tal" << endl;
     texts.push_back(getText(1));
+    //cout<< "Hola que tal" << endl;
 }
 
+void Processor::initLPH() {
 
+    cout << "inciando LPH" << endl;
+    lph = new LinearProbingHashing(611671);
+    cout << "end init LPH" << endl;
+}
+
+void Processor::insertIntoLPH(vector<string> v){
+    for(int i=0; i<v.size(); i++)
+        lph->insert(v.at(i));
+}
+/*
 void Processor::initPatricia() {
     patricia = new Patricia();
 
-}
+}*/
 
 double Processor::similarityPatricia() {
     return 0;
@@ -160,4 +173,12 @@ double Processor::similarityHLP() {
 
 double Processor::similarityTernary() {
     return 0;
+}
+
+vector<string> Processor::getT1words() {
+    return this->t1_words;
+}
+
+vector<string> Processor::getT2words() {
+    return this->t2_words;
 }
