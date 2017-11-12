@@ -2,11 +2,10 @@
 
 int main(){
 	Processor *processor = new Processor("/home/paloma/Documents/Personal/C++/Tarea2/input/", 100);
-    processor->setTexts();
-    processor->initLPH();
+    processor->setTexts();/*Inserta en estructura en particular*/
     //processor->printWords(processor->getT1words());
-    processor->insertIntoLPH(processor->getT1words());
-    processor->searchInLPH(processor->getT2words());
+    processor->searchInLPH(processor->getT1words());
+    processor->destroyLHP();
     //processor->getLPH()->printTable();
 
 	return 0;

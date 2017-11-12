@@ -61,7 +61,7 @@ class Processor{
          * Recibe 0 o 1 como parametro para representar
          * texto.
          */
-        string getText(unsigned int i);
+        void readText(unsigned int i);
         vector<string> getT1words();
         vector<string> getT2words();
         void setTexts();
@@ -75,6 +75,8 @@ class Processor{
         void initLPH();
         //void initTernary();
 
+
+        void destroyLHP();
         /**
          * Calcula similitudes entre textos por cada diccionario
          * */

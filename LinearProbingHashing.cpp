@@ -6,8 +6,19 @@
  * **/
 
 LinearProbingHashing::LinearProbingHashing() {
-    table= new string[SIZE];
+    size = PRIME_VALUES[prime_index];
+    table= new string[size];
+    count =0;
 }
+
+LinearProbingHashing::~LinearProbingHashing() {
+
+    for(int i=0; i<size; i++)
+        delete &table[i];
+
+    delete[] table;
+}
+
 unsigned int LinearProbingHashing::h(string s) {
 
     unsigned int calc_val=0;
@@ -15,10 +26,10 @@ unsigned int LinearProbingHashing::h(string s) {
     for(int i=0; i<s.size(); i++){
         unsigned char c = s[i];
 
-        calc_val+= (unsigned int)(c*pow((double)SIZE, (double)i));
+        calc_val+= (unsigned int)(c*pow((double)size, (double)i));
     }
 
-    return calc_val % SIZE;
+    return calc_val % size;
 }
 
 void LinearProbingHashing::insert(string word) {
@@ -29,15 +40,25 @@ void LinearProbingHashing::insert(string word) {
     string aux = table[index];
 
     if(aux.compare("")==0){
+        count++;
+
+        if((((double)count)/((double) size))>load_factor)
+            doubleTable();
+
         table[index] = word;
         return;
     }
     while(aux.compare("")!=0 && init_index!=index){/*La ultima condicion indica que da vuelta*/
         index = index+1;
-        aux = table[index % SIZE];
+        aux = table[index % size];
     }
 
     if(aux.compare("")==0 && init_index!=index){
+        count++;
+
+        if((((double)count)/((double) size))>load_factor)
+            doubleTable();
+
         table[index] = word;
         return;
     }
@@ -54,7 +75,7 @@ int LinearProbingHashing::search(string word) {
 
     while(aux.compare(word)!=0 && index!=init_index){
         index = index+1;
-        aux = table[index % SIZE];
+        aux = table[index % size];
     }
     if(index==init_index) return -1;
     else return index;
@@ -63,11 +84,25 @@ int LinearProbingHashing::search(string word) {
 
 void LinearProbingHashing::printTable() {
 
-    for(int i=0; i<SIZE; i++){
+    for(int i=0; i<size; i++){
         string aux = table[i];
 
         if(aux.compare("")!=0){
             cout <<  aux <<endl;
         }
     }
+}
+
+void LinearProbingHashing::doubleTable() {
+    prime_index++;
+    size = PRIME_VALUES[prime_index];
+    string* aux_table = table;
+    delete []table;
+    table = new string[size];
+
+    for(int i=0; i<aux_table->size(); i++){
+        string s = aux_table[i];
+        insert(s);
+    }
+    delete[] aux_table;
 }

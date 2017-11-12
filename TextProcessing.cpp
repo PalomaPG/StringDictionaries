@@ -33,6 +33,10 @@ void Processor::selectWords(string line, unsigned int i){
     /*Selecciona las palabras de acuerdo a criterio azaroso*/
 
     for(unsigned int j=0; j<ws.size(); j++){
+        {
+            lph->insert(ws.at(j));
+            cout << ws.at(j) << endl;
+        }
         r = ((double) rand() / (RAND_MAX));
         if(r>0.5) {
             if(i==0 && t1_words.size()<n_words && (ws.at(j)).length()>0)
@@ -49,6 +53,7 @@ void Processor::selectWords(string line, unsigned int i){
 Processor::Processor(string dirPath, unsigned int n_w) {
     DirPath = dirPath.c_str();
     n_words = n_w;
+    initLPH();
     //patricia = NULL;
 }
 
@@ -112,7 +117,7 @@ void Processor::listFilesInDir(){
     }
 }
 
-string Processor::getText(unsigned int i) {
+void Processor::readText(unsigned int i) {
 
     string line;
     string text="";
@@ -130,18 +135,13 @@ string Processor::getText(unsigned int i) {
     }else{
         cout << "unable to open file" << endl;
     }
-    /*Asumimos que siempre se agregan en orden, primero 0 (T1) y despues
-     * 1 (T2)*/
-    //checkWords(t1_words);
-    return text;
-
 }
 
 void Processor::setTexts() {
 
     listFilesInDir();
-    texts.push_back(getText(0));
-    texts.push_back(getText(1));
+    readText(0);
+    //texts.push_back(getText(1));
 }
 
 void Processor::initLPH() {
@@ -193,4 +193,8 @@ void Processor::searchInLPH(vector<string> v) {
     for(int i=0;i<v.size(); i++){
         cout << lph->search(v.at(i)) << endl;
     }
+}
+
+void Processor::destroyLHP() {
+    delete lph;
 }
