@@ -20,7 +20,7 @@ class LinearProbingHashing{
     public:
         LinearProbingHashing();
         unsigned int h(string s);
-        vector<unsigned int> search(string s);
+        int search(string s);
         void insert(string word);
         void printTable();
         ~LinearProbingHashing();

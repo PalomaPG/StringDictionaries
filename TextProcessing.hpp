@@ -84,7 +84,7 @@ class Processor{
         //string getDir();
 
         void insertIntoLPH(vector<string> v);
-
+        void searchInLPH(vector<string> v);
         LinearProbingHashing* getLPH();
 };
 

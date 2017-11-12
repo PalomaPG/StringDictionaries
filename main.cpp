@@ -6,7 +6,8 @@ int main(){
     processor->initLPH();
     //processor->printWords(processor->getT1words());
     processor->insertIntoLPH(processor->getT1words());
-    processor->getLPH()->printTable();
+    processor->searchInLPH(processor->getT2words());
+    //processor->getLPH()->printTable();
 
 	return 0;
 }

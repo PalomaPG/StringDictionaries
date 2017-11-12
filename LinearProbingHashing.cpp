@@ -45,10 +45,20 @@ void LinearProbingHashing::insert(string word) {
 }
 
 
-vector<unsigned int> LinearProbingHashing::search(string s) {
+int LinearProbingHashing::search(string word) {
 
+    unsigned int init_index =  this->h(word);
+    string aux = table[init_index];
+    if(aux.compare(word)==0) return init_index;
+    unsigned int index;
 
-    return vector<unsigned int>();
+    while(aux.compare(word)!=0 && index!=init_index){
+        index = index+1;
+        aux = table[index % SIZE];
+    }
+    if(index==init_index) return -1;
+    else return index;
+
 }
 
 void LinearProbingHashing::printTable() {
