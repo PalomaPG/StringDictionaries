@@ -11,97 +11,39 @@
 using namespace std;
 
 class Node{
-	public:
-		Node();
-		virtual ~Node(){};
-		virtual void insertWord(Node* node, string word, unsigned int i)=0;
-		virtual Leaf* search(Node* node, string word)=0;
-        virtual void destroyNode(Node* node)=0;
 
-
+public:
+    Node();
+    virtual void insert(string s);
+    virtual Leaf* search(string s);
 };
 
-class Leaf:public Node{
+class NonLeaf: public Node{
 
-	private:
-		vector<unsigned int> positions;
+private:
+    vector<string> labels;
+    vector<Node*> children;
 
-	public:
-		Leaf(unsigned int i);
-        vector<unsigned int> getPositions();
-        void addPositions(unsigned int i);
-};
-
-class Root: public Node{
-
-	private:
-		vector<Node*> children;
-		vector<string> labels;
-
-	public:
-		Root();
-		vector<Node*> getChildren();
-		vector<string> getLabels();
-		void setChildren(vector<Node*> new_children);
-		void setLabels(vector<string> new_labels);
-        void insertWord(Node* node, string word, unsigned int i);
-        Leaf*search(Node* node,string word);
-};
-
-class InnerNode: public Node{
-
-	private:
-		vector<Node*> children;
-		vector<string> labels;
-	public:
-		InnerNode();
-		vector<Node*> getChildren();
-		vector<string> getLabels();
-		void setChildren(vector<Node*> new_children);
-		void setLabels(vector<string> new_labels);
-        void insertWord(Node* node, string word, unsigned int i);
-        Leaf*search(Node* node,string word);
-
-
-};
-
-class Patricia
-{
-	public:
-		Root* root;
-		Patricia();
-		~Patricia();
-
-
-	/**
-	 * Busca string word en arbol
-	 * @param word palabra a buscar. Es un string
-	 * @return vector de posiciones donde se encuentra string
-	 */
-		vector<unsigned int> search(string word);
-	/**
-	 * inserta palabra
-	 * @param word Palabra a insertar
-	 * @param i posicion en arreglo
-	 */
-		void insert(string word, unsigned int i);
-
-	/**
-	 * Espacio ocupado por el trie
-	 * @return devuelve tamano en Kilobytes
-	 */
-
-		float space();
-
-		/*Prints the tree */
-		void printTree(Node* node);
-
-
-		/*Destroy this trie*/
-		void destroy();
-
-
+public:
+    NonLeaf();
+    vector<string> getLabels();
+    vector<Node*> getChildren();
+    void setChildren(vector<Node*> newChildren);
+    void setLabels(vector<string> newLabels);
+    void fakeInsert(Node* node, string s);
+    Leaf* fakeSearch(Node* node, string s);
+    string getMaxPref(string s1, string s2);
 };
 
 
+
+class Leaf: public Node{
+
+private:
+    vector<unsigned int> indices;
+public:
+    Leaf();
+    vector<unsigned int> getIndices();
+    void setIndices(vector<unsigned int> newIndices);
+};
 #endif
