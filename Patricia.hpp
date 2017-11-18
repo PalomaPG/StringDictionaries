@@ -10,12 +10,15 @@
 
 using namespace std;
 
+struct Leaf;
+
 class Node{
 
 public:
     Node();
-    virtual void insert(string s, unsigned int index);
-    virtual Leaf* search(string s);
+    ~Node();
+    virtual void insert(string s, unsigned int index)=0;
+    virtual Leaf* search(string s)=0;
 };
 
 class NonLeaf: public Node{
@@ -33,6 +36,9 @@ public:
     void fakeInsert(Node* node, string s, unsigned int index);
     Leaf* fakeSearch(Node* node, string s);
     string getMaxPref(string s1, string s2);
+
+    void insert(string s, unsigned int index);
+    Leaf* search(string s);
 };
 
 
@@ -45,5 +51,20 @@ public:
     Leaf();
     vector<unsigned int> getIndices();
     void setIndices(vector<unsigned int> newIndices);
+
+    void insert(string s, unsigned int index);
+    Leaf* search(string s);
+
+};
+
+
+
+class Patricia{
+private:
+    NonLeaf* root;
+public:
+    Patricia();
+    void insert(string s, unsigned int i);
+    vector<unsigned int> search(string s);
 };
 #endif
