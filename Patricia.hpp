@@ -14,7 +14,7 @@ class Node{
 
 public:
     Node();
-    virtual void insert(string s);
+    virtual void insert(string s, unsigned int index);
     virtual Leaf* search(string s);
 };
 
@@ -30,7 +30,7 @@ public:
     vector<Node*> getChildren();
     void setChildren(vector<Node*> newChildren);
     void setLabels(vector<string> newLabels);
-    void fakeInsert(Node* node, string s);
+    void fakeInsert(Node* node, string s, unsigned int index);
     Leaf* fakeSearch(Node* node, string s);
     string getMaxPref(string s1, string s2);
 };
