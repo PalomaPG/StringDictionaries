@@ -26,12 +26,18 @@ void iteration(string path){
 void testPatricia(){
 
     Patricia* paty = new Patricia();
-    paty->insert("no$", 14);
-    paty->insert("ni$", 14);
-    paty->insert("ni$", 16);
-    paty->insert("ni$", 18);
+    paty->insert("hola$", 1);
+    paty->insert("holanda$", 4);
+    paty->insert("chaooo$", 34);
+    paty->insert("nicoso$", 10);
+    paty->insert("nicos$", 14);
+    paty->insert("nicosa$", 9);
+    paty->insert("niza$", 16);
+    paty->insert("nini$", 18);
     paty->insert("nini$", 20);
-    vector<unsigned int> v =paty->search("nini$");
+    paty->insert("nicosa$", 32);
+    paty->insert("nicosa$", 43);
+    vector<unsigned int> v =paty->search("holanda$");
     cout << v.size() << endl;
 
     for(int i=0; i<v.size(); i++)

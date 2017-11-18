@@ -25,7 +25,6 @@ void NonLeaf::fakeInsert(Node *node, string s, unsigned int index) {
     Leaf* leaf = fakeSearch(node, s); /*busqueda*/
 
     if(leaf==NULL){/*Si no existe en este arbol*/
-        cout << "no existe por tanto lo agrego "+s << endl;
 
         NonLeaf* current = dynamic_cast<NonLeaf*>(node);/* Asumimos que comenzamos en nodo no hoja*/
 
@@ -50,24 +49,51 @@ void NonLeaf::fakeInsert(Node *node, string s, unsigned int index) {
             }else{
                 /*Antecedentes*/
                 string label = labels[i];
-                string new_label = getMaxPref(label, s);
+                string lcp = getMaxPref(label, s);
                 vector<Node*> children = current->getChildren();
 
                 NonLeaf* child = dynamic_cast<NonLeaf*>(children[i]);
 
                 if(child!=NULL){
-                    cout << "AHORA SI? "+label << endl;
 
+                    /*Label corresponde a longest common pref */
+                    if(label.compare(lcp)==0){
 
+                        return fakeInsert(child, s.substr(label.size(), s.size()-label.size()),index);
+                    }
 
+                    /*Label no corresponde a longest common pref*/
+                    else{
+                        /*crear nuevo nodo interno*/
 
+                        labels[i] = lcp;
+                        NonLeaf* newInner = new NonLeaf();
+                        current->setLabels(labels);
+                        children[i] = newInner;
+                        current->setChildren(children);
+
+                        vector<string> newInner_labels;
+                        newInner_labels.push_back(label.substr(lcp.size(), label.size()-lcp.size()));
+                        newInner_labels.push_back(s.substr(lcp.size(), s.size()-lcp.size()));
+
+                        vector<Node*> newInner_children;
+                        newInner_children.push_back(child);
+
+                        Leaf* newLeaf = new Leaf();
+                        newLeaf->insert(s, index);
+                        newInner_children.push_back(newLeaf);
+
+                        newInner->setChildren(newInner_children);
+                        newInner->setLabels(newInner_labels);
+                        return;
+                    }
 
 
                 }else{/*El siguiente hijo es una hoja*/
                     Leaf* child_leaf = dynamic_cast<Leaf*>(children[i]);
                     NonLeaf* new_child = new NonLeaf(); /*Se crea hoja interna nueva*/
                     /*Actualizamos etiquetas del nodo en que estmos parados*/
-                    labels[i] = new_label;
+                    labels[i] = lcp;
                     current->setLabels(labels);
                     children[i] = new_child;
                     current->setChildren(children);
@@ -78,25 +104,17 @@ void NonLeaf::fakeInsert(Node *node, string s, unsigned int index) {
                     /*El nuevo nodo interno recibe hoja*/
                     child_children.push_back(child_leaf);/*Recibe hoja con indices de 1era palabra*/
                     vector<string> child_labels;
-                    child_labels.push_back(label.substr(new_label.size(), label.size()-new_label.size()));
+                    child_labels.push_back(label.substr(lcp.size(), label.size()-lcp.size()));
 
                     Leaf* new_leaf = new Leaf();
                     new_leaf->insert(s, index);
-                    child_labels.push_back(s.substr(new_label.size(), s.size()-new_label.size()));
+                    child_labels.push_back(s.substr(lcp.size(), s.size()-lcp.size()));
                     child_children.push_back(new_leaf);
 
                     new_child->setChildren(child_children);
                     new_child->setLabels(child_labels);
                     return;
                 }
-                //labels[i] = new_label;
-                //nonleaf->setLabels(labels);
-                //nonleaf->setChildren(labels.erase(children.begin()+i));
-
-
-
-
-
 
             }
         }
@@ -128,13 +146,11 @@ Leaf* NonLeaf::fakeSearch(Node *node, string s) {
             cout << label << endl;
             vector<Node*> children = nonleaf->getChildren();
             if(label.compare(s)==0 && dynamic_cast<Leaf*>(children[i])) {
-                cout << "son iguales "+s << endl;
                 return dynamic_cast<Leaf*>(children[i]);
             }
             else{
 
                 if(label.size()>=s.size()) {
-                    cout << "holaaaaa" << endl;
                     return NULL;
                 }
                 else{
