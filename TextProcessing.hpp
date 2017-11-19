@@ -33,15 +33,15 @@ const char Sigma[] =
 class Processor{
 
     private:
-        string DirPath;
-        vector <string> files;
-        vector <string> t1_words;
-        //vector <string> t2_words;
-        /*T1 y T2 en texts*/
-        vector <string> texts;
+
+        string file_path;
+        vector <string> words;
+        vector <string> sample_words;
         unsigned int n_words;
+        unsigned int count=0;
         Patricia* patricia;
         LinearProbingHashing* lph;
+        TST* tst;
         /**
          *Funciones para remover
          */
@@ -52,44 +52,43 @@ class Processor{
     public:
         Processor(string, unsigned int n_w);
         ~Processor();
-        /**
-         * Dos archivos con largo similar
-         */
-        void listFilesInDir();
+
 
         /**
          * Retorna string de archivo preprocesado
          * Recibe 0 o 1 como parametro para representar
          * texto.
          */
-        void readText(unsigned int i);
-        vector<string> getT1words();
-        //vector<string> getT2words();
-        void setTexts();
-        void selectWords(string line, unsigned int i);
+        void readText();
+        vector<string> getSample();
+        void verifyNofWords();
+        void selectWords(string line);
         void printWords(vector<string> v);
 
         /**
          * Inizializa diccionarios
          */
-        //void initPatricia();
+        void initPatricia();
         void initLPH();
-        //void initTernary();
+        void initTernary();
 
         void destroyTST();
         void destroyLHP();
         void destroyPaty();
-        /**
-         * Calcula similitudes entre textos por cada diccionario
-         * */
-        //double similarityPatricia();
-        //double similarityHLP();
-        //double similarityTernary();
-        //string getDir();
+
+
 
         void insertIntoLPH(vector<string> v);
         void searchInLPH(vector<string> v);
         LinearProbingHashing* getLPH();
+
+    void searchSampleLPH();
+
+    void insertWordsPatricia();
+
+    void searchSamplePatricia();
+
+    void insertWordsLPH();
 };
 
 

@@ -2,56 +2,40 @@
 #include "Patricia.hpp"
 using namespace std;
 
-void testPatricia();
-void testTernary();
+void testInsertion(int i);
 
 int main(){
-    //testTernary();
-    testPatricia();
-    /*
-	Processor *processor = new Processor("/home/paloma/Documents/Personal/C++/Tarea2/input/", 100);
-    processor->setTexts();
-    //processor->printWords(processor->getT1words());
-    processor->searchInLPH(processor->getT1words());
-    processor->destroyLHP();
-    //processor->getLPH()->printTable();
-    */
+
+    for(int i=10; i<=20; i++){
+        testInsertion(i);
+    }
+
+
 	return 0;
 }
-void iteration(string path){
 
-    Processor *processor = new Processor(path, 100);
-    processor->listFilesInDir();
+void testInsertion(int i){
+
+    Processor *processor = new Processor("/home/paloma/Documents/Personal/C++/Tarea2/input/anna_karenina.txt", i);
+    processor->readText();
+    processor->verifyNofWords();
+    PatriciaInsertAndSearch(processor);
 }
 
-void testPatricia(){
+void PatriciaInsertAndSearch(Processor *processor){
 
-    Patricia* paty = new Patricia();
-    paty->insert("hola$", 1);
-    paty->insert("holanda$", 4);
-    paty->insert("chaooo$", 34);
-    paty->insert("nicoso$", 10);
-    paty->insert("nicos$", 14);
-    paty->insert("nicosa$", 9);
-    paty->insert("niza$", 16);
-    paty->insert("nini$", 18);
-    paty->insert("nini$", 20);
-    paty->insert("nicosa$", 32);
-    paty->insert("nicosa$", 43);
-    vector<unsigned int> v =paty->search("nini$");
-    //cout << v.size() << endl;
-
-    for(unsigned int i=0; i<v.size(); i++)
-        cout << v[i] << endl;
-    delete paty;
+    processor->initPatricia();
+    processor->insertWordsPatricia();
+    processor->searchSamplePatricia();
+    processor->destroyPaty();
 }
 
-void testTernary(){
 
-    TST* tst = new TST();
-    tst->insert("hola");
-    tst->insert("habito");
-    tst->insert("habito");
-    cout << tst->search("hola") << endl;
-    cout << tst->search("habito") << endl;
+void LPHInsertAndSearch(Processor *processor){
+
+    processor->initLPH();
+    processor->insertWordsLPH();
+    processor->searchSampleLPH();
+    processor->destroyLHP();
+
 }

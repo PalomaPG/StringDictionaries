@@ -17,7 +17,6 @@ vector<string> split(string line){
         //cout<< token << endl;
         line.erase(0, pos + delimiter.length());
     }
-    //cout << line << endl;
     return w;
 }
 
@@ -26,35 +25,31 @@ void checkWords(vector<string> vec){
         cout<< vec.at(i) <<endl;
 }
 
-void Processor::selectWords(string line, unsigned int i){
+void Processor::selectWords(string line){
+    if(count>=n_words) return;
     /*Splitea line en un arreglo de strings*/
     vector<string> ws =split(line);
     double r;
     /*Selecciona las palabras de acuerdo a criterio azaroso*/
-
+    cout << "seleccionando palabras" <<endl;
     for(unsigned int j=0; j<ws.size(); j++){
-        {
-            lph->insert(ws.at(j));
-            cout << ws.at(j) << endl;
-        }
+        words.push_back(ws[j]);
+        count++;
         r = ((double) rand() / (RAND_MAX));
         if(r>0.5) {
-            if(i==0 && t1_words.size()<n_words && (ws.at(j)).length()>0)
-                t1_words.push_back(ws[j]);
+            if(sample_words.size()<n_words && (ws.at(j)).length()>0)
+                sample_words.push_back(ws[j]);
 
-            /*else if(i==1 && t2_words.size()<n_words && (ws.at(j)).length()>0)
-                t2_words.push_back(ws.at(j));*/
             else break;
         }
     }
 
 }
 
-Processor::Processor(string dirPath, unsigned int n_w) {
-    DirPath = dirPath.c_str();
-    n_words = n_w;
-    initLPH();
-    //patricia = NULL;
+Processor::Processor(string file_path, unsigned int n_w) {
+    this->file_path=file_path;
+    n_words = (int) pow(2, n_w);
+
 }
 
 Processor::~Processor() {
@@ -94,55 +89,40 @@ string Processor::removePunctuationAndStuff(string line) {
 }
 
 
-void Processor::listFilesInDir(){
 
 
-    DIR *dir;
-    struct dirent *ent;
-    cout << DirPath << endl;
-
-    if((dir=opendir(DirPath.c_str())) !=NULL){
-        while((ent = readdir(dir)) !=NULL){
-
-            if(ent->d_type==DT_REG) {
-                printf("%s\n", ent->d_name);
-                files.push_back(DirPath+string(ent->d_name));
-            }
-        }
-        closedir(dir);
-    }else{
-        cout << DirPath << endl;
-        perror("Error al leer");
-        return;
-    }
-}
-
-void Processor::readText(unsigned int i) {
+void Processor::readText() {
 
     string line;
-    string text="";
-    ifstream infile (files.at(i));
+    ifstream infile (file_path);
     if(infile.is_open()){
+        cout << "open file to read" << endl;
         while(getline(infile, line)){
+            if(count>=n_words) break;
             line = this->toLowerCase(line);
             line = this->removePunctuationAndStuff(line);
             line = this->removeNumbers(line);
             //cout << line <<endl;
-            selectWords(line, i);
-            text = text+line;
+            selectWords(line);
         }
         infile.close();
     }else{
         cout << "unable to open file" << endl;
     }
+ }
+
+void Processor::verifyNofWords(){
+
+    unsigned int i=0;
+    while(count<n_words){
+
+        words.push_back(words[i]);
+        count++;
+        i=i%n_words;
+    }
+    return;
 }
 
-void Processor::setTexts() {
-
-    listFilesInDir();
-    readText(0);
-    //texts.push_back(getText(1));
-}
 
 void Processor::initLPH() {
 
@@ -160,8 +140,8 @@ void Processor::initPatricia() {
 }*/
 
 
-vector<string> Processor::getT1words() {
-    return this->t1_words;
+vector<string> Processor::getSample() {
+    return this->sample_words;
 }
 
 
@@ -187,4 +167,20 @@ void Processor::destroyLHP() {
 
 void Processor::destroyPaty() {
     delete patricia;
+}
+
+void Processor::searchSampleLPH() {
+
+}
+
+void Processor::insertWordsPatricia() {
+
+}
+
+void Processor::searchSamplePatricia() {
+
+}
+
+void Processor::insertWordsLPH() {
+
 }
