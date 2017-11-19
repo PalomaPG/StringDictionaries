@@ -127,10 +127,7 @@ void Processor::initLPH() {
     lph = new LinearProbingHashing();
 }
 
-void Processor::insertIntoLPH(vector<string> v){
-    for(unsigned  int i=0; i<v.size(); i++)
-        lph->insert(v.at(i));
-}
+
 
 void Processor::initPatricia() {
     patricia = new Patricia();
@@ -143,9 +140,7 @@ vector<string> Processor::getSample() {
 }
 
 
-LinearProbingHashing* Processor::getLPH() {
-    return lph;
-}
+
 
 void Processor::printWords(vector<string> v) {
     for(unsigned int i=0; i<v.size(); i++){
@@ -153,11 +148,12 @@ void Processor::printWords(vector<string> v) {
     }
 }
 
+/*
 void Processor::searchInLPH(vector<string> v) {
     for(unsigned int i=0;i<v.size(); i++){
         cout << lph->search(v.at(i)) << endl;
     }
-}
+}*/
 
 void Processor::destroyLHP() {
     delete lph;
@@ -186,4 +182,12 @@ void Processor::searchSamplePatricia() {
 
 void Processor::insertWordsLPH() {
 
+}
+
+double Processor::getPatriciaInsertTime() {
+    return patricia->getTotalInsertTime();
+}
+
+unsigned int Processor::getPatriciaSize(){
+    return patricia->patySize(patricia->getRoot());
 }

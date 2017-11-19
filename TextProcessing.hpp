@@ -49,7 +49,7 @@ class Processor{
         string removePunctuationAndStuff(string);
         string removeNumbers(string);
 
-    public:
+        public:
         Processor(string, unsigned int n_w);
         ~Processor();
 
@@ -77,18 +77,13 @@ class Processor{
         void destroyPaty();
 
 
+        void searchSampleLPH();
+        void insertWordsPatricia();
+        void searchSamplePatricia();
+        void insertWordsLPH();
 
-        void insertIntoLPH(vector<string> v);
-        void searchInLPH(vector<string> v);
-        LinearProbingHashing* getLPH();
-
-    void searchSampleLPH();
-
-    void insertWordsPatricia();
-
-    void searchSamplePatricia();
-
-    void insertWordsLPH();
+        double getPatriciaInsertTime();
+        unsigned int getPatriciaSize();
 };
 
 

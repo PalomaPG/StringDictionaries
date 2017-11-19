@@ -7,8 +7,10 @@
 #include <string>
 #include <cstdlib>
 #include <vector>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 struct Leaf;
 
@@ -63,11 +65,17 @@ public:
 class Patricia{
 private:
     NonLeaf* root;
+    float totalInsertTime;
+
 public:
     Patricia();
     ~Patricia();
+    float getTotalInsertTime();
+    void setTotalInsertTime(float new_time);
     void insert(string s, unsigned int i);
     vector<unsigned int> search(string s);
+    unsigned int patySize(Node* node);
 
+    NonLeaf *getRoot();
 };
 #endif

@@ -4,7 +4,6 @@
 Node::Node(){}
 
 Node::~Node(){
-   delete this;
 
 }
 
@@ -248,7 +247,18 @@ void Patricia::insert(string s, unsigned int i) {
     Leaf* leaf = this->root->search(s); /*busqueda*/
 
     if(leaf==NULL) {/*Si no existe en este arbol*/
+
+        auto start = high_resolution_clock::now();
+
+
         this->root->insert(s, i);
+
+        auto end = high_resolution_clock::now();
+        auto dur = end - start;
+        //auto i_millis = duration_cast<milliseconds>(dur);
+        auto f_secs = duration_cast<duration<float>>(dur);
+
+        this->setTotalInsertTime(this->getTotalInsertTime()+(f_secs.count()));
     }
     else{
         vector<unsigned int> new_indices = leaf->getIndices();
@@ -270,3 +280,32 @@ Patricia::~Patricia() {
         this->root->destroyMe(this->root);
         this->root=NULL;
 }
+
+float Patricia::getTotalInsertTime() {
+    return this->totalInsertTime;
+}
+
+void Patricia::setTotalInsertTime(float new_time) {
+    this->totalInsertTime=new_time;
+}
+
+unsigned int Patricia::patySize(Node* node) {
+
+    unsigned int node_size = sizeof(node);
+    NonLeaf* current = dynamic_cast<NonLeaf*>(node);
+
+    if(current!=NULL) {
+        vector<Node *> childs = current->getChildren();
+        for (unsigned int i = 0; i < childs.size(); i++) {
+            node_size += patySize(childs[i]);
+        }
+        return node_size;
+    }
+    else sizeof(node);
+}
+
+NonLeaf* Patricia::getRoot() {
+    return this->root;
+}
+
+

@@ -29,6 +29,10 @@ void PatriciaInsertAndSearch(Processor *processor){
 
     processor->initPatricia();
     processor->insertWordsPatricia();
+    float t =processor->getPatriciaInsertTime();
+    long int s = processor->getPatriciaSize();
+    cout << "tiempo total de insercion:" << t << endl;
+    cout << "tamanho del arbol: " << s << endl;
     processor->searchSamplePatricia();
     processor->destroyPaty();
 }
