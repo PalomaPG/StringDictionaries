@@ -19,6 +19,7 @@ public:
     ~Node();
     virtual void insert(string s, unsigned int index)=0;
     virtual Leaf* search(string s)=0;
+    virtual void destroyMe(Node* node)=0;
 };
 
 class NonLeaf: public Node{
@@ -36,7 +37,7 @@ public:
     void fakeInsert(Node* node, string s, unsigned int index);
     Leaf* fakeSearch(Node* node, string s);
     string getMaxPref(string s1, string s2);
-
+    void destroyMe(Node* node);
     void insert(string s, unsigned int index);
     Leaf* search(string s);
 };
@@ -64,6 +65,7 @@ private:
     NonLeaf* root;
 public:
     Patricia();
+    ~Patricia();
     void insert(string s, unsigned int i);
     vector<unsigned int> search(string s);
 

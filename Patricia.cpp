@@ -196,6 +196,29 @@ string NonLeaf::getMaxPref(string label, string word) {
     return word.substr(0, i);
 }
 
+void NonLeaf::destroyMe(Node* node) {
+
+    if(node!=NULL){
+        NonLeaf* current = dynamic_cast<NonLeaf*>(node);
+        if(current!=NULL){
+            vector<Node*> childs = current->getChildren();
+
+            for(unsigned int i=0; i<childs.size(); i++){
+
+                destroyMe(childs[i]);
+            }
+            delete current->setLabels(vector<string>());
+            delete current;
+
+
+        }else{
+            Leaf* current = dynamic_cast<NonLeaf*>(node);
+            current->setIndices(vector<unsigned int>());
+            delete current;
+
+        }
+    }
+}
 
 Leaf::Leaf(){
 }
@@ -239,4 +262,9 @@ vector<unsigned int> Patricia::search(string s) {
     Leaf* leaf=  this->root->search(s);
     return leaf==NULL? vector<unsigned int>() : leaf->getIndices();
 
+}
+
+Patricia::~Patricia() {
+
+        this->root->destroyMe(this->root);
 }

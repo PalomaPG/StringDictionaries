@@ -16,6 +16,7 @@
 
 
 #include "LinearProbingHashing.hpp"
+#include "Patricia.hpp"
 #include "Ternary.hpp"
 
 using namespace std;
@@ -35,11 +36,11 @@ class Processor{
         string DirPath;
         vector <string> files;
         vector <string> t1_words;
-        vector <string> t2_words;
+        //vector <string> t2_words;
         /*T1 y T2 en texts*/
         vector <string> texts;
         unsigned int n_words;
-        //Patricia* patricia;
+        Patricia* patricia;
         LinearProbingHashing* lph;
         /**
          *Funciones para remover
@@ -63,7 +64,7 @@ class Processor{
          */
         void readText(unsigned int i);
         vector<string> getT1words();
-        vector<string> getT2words();
+        //vector<string> getT2words();
         void setTexts();
         void selectWords(string line, unsigned int i);
         void printWords(vector<string> v);
@@ -75,14 +76,15 @@ class Processor{
         void initLPH();
         //void initTernary();
 
-
+        void destroyTST();
         void destroyLHP();
+        void destroyPaty();
         /**
          * Calcula similitudes entre textos por cada diccionario
          * */
-        double similarityPatricia();
-        double similarityHLP();
-        double similarityTernary();
+        //double similarityPatricia();
+        //double similarityHLP();
+        //double similarityTernary();
         //string getDir();
 
         void insertIntoLPH(vector<string> v);

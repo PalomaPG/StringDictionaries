@@ -15,7 +15,10 @@ LinearProbingHashing::~LinearProbingHashing() {
 
     for(unsigned int i=0; i<size; i++)
         delete &table[i];
-
+    size=NULL;
+    delete size;
+    delete count;
+    delete prime_index;
     delete[] table;
 }
 

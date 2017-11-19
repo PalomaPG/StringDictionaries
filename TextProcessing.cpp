@@ -40,10 +40,10 @@ void Processor::selectWords(string line, unsigned int i){
         r = ((double) rand() / (RAND_MAX));
         if(r>0.5) {
             if(i==0 && t1_words.size()<n_words && (ws.at(j)).length()>0)
-                t1_words.push_back(ws.at(j));
+                t1_words.push_back(ws[j]);
 
-            else if(i==1 && t2_words.size()<n_words && (ws.at(j)).length()>0)
-                t2_words.push_back(ws.at(j));
+            /*else if(i==1 && t2_words.size()<n_words && (ws.at(j)).length()>0)
+                t2_words.push_back(ws.at(j));*/
             else break;
         }
     }
@@ -159,25 +159,11 @@ void Processor::initPatricia() {
 
 }*/
 
-double Processor::similarityPatricia() {
-    return 0;
-}
-
-double Processor::similarityHLP() {
-    return 0;
-}
-
-double Processor::similarityTernary() {
-    return 0;
-}
 
 vector<string> Processor::getT1words() {
     return this->t1_words;
 }
 
-vector<string> Processor::getT2words() {
-    return this->t2_words;
-}
 
 LinearProbingHashing* Processor::getLPH() {
     return lph;
@@ -197,4 +183,8 @@ void Processor::searchInLPH(vector<string> v) {
 
 void Processor::destroyLHP() {
     delete lph;
+}
+
+void Processor::destroyPaty() {
+    delete patricia;
 }
