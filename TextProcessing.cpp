@@ -150,7 +150,7 @@ void Processor::initLPH() {
 }
 
 void Processor::insertIntoLPH(vector<string> v){
-    for(int i=0; i<v.size(); i++)
+    for(unsigned  int i=0; i<v.size(); i++)
         lph->insert(v.at(i));
 }
 /*
@@ -184,13 +184,13 @@ LinearProbingHashing* Processor::getLPH() {
 }
 
 void Processor::printWords(vector<string> v) {
-    for(int i=0; i<v.size(); i++){
+    for(unsigned int i=0; i<v.size(); i++){
         cout << v.at(i) << endl;
     }
 }
 
 void Processor::searchInLPH(vector<string> v) {
-    for(int i=0;i<v.size(); i++){
+    for(unsigned int i=0;i<v.size(); i++){
         cout << lph->search(v.at(i)) << endl;
     }
 }

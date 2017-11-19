@@ -51,6 +51,7 @@ void testTernary(){
     TST* tst = new TST();
     tst->insert("hola");
     tst->insert("habito");
+    tst->insert("habito");
     cout << tst->search("hola") << endl;
     cout << tst->search("habito") << endl;
 }

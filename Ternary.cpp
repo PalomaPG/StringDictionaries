@@ -2,10 +2,12 @@
 
 
 TSTNode::TSTNode() {
-
+ this->label = '\0';
+    this->end = false;
 }
 TSTNode::TSTNode(char label) {
     this->label=label;
+    this->end=false;
 }
 
 
@@ -36,7 +38,7 @@ void TSTNode::setMid(TSTNode* node) {
     this->mid=node;
 }
 
-void TSTNode::setRigth(TSTNode* node) {
+void TSTNode::setRight(TSTNode* node) {
     this->right=node;
 }
 
@@ -68,52 +70,46 @@ TSTNode* TSTNode::search(TSTNode *node, string s) {
 }
 
 void TSTNode::insert(TSTNode *node, string s) {
-    if(node->getLabel()=='\0'){
 
+    if(node->getLabel()=='\0'){
+        /*Label no inicializada*/
         node->setLabel(s[0]);
-        node->setMid(new TSTNode());
-        if(s.size()==1) {
+        if(s.size()==1){
             node->setEnd(true);
             return;
         }
-        else insert(node->getMid(), s.substr(1, s.size()-1));
-
+        else {
+            TSTNode *new_mid = new TSTNode();
+            node->setMid(new_mid);
+            return insert(new_mid, s.substr(1, s.size()-1));
+        }
     }
-    else if(s[0]==node->getLabel()){
-        insert(node->getMid(), s.substr(1, s.size()-1));
+    else if(node->getLabel()==s[0]){
+        return insert(node->getMid(), s.substr(1, s.size()-1));
+    }
+
+    else if(node->getLabel()>s[0]){
+
+        if(node->getLeft()==NULL){
+            TSTNode* new_left = new TSTNode();
+            node->setLeft(new_left);
+            return insert(new_left, s);
+
+        }else{
+            return insert(node->getLeft(), s);
+        }
     }
     else{
-        if(s[0]<node->getLabel()){
-            TSTNode* left = node->getLeft();
-            if(left==NULL) {
-                left = new TSTNode(s[0]);
 
-                if(s.size()==1) {
-                    left->setEnd(true);
-                    return;
-                }
+        if(node->getRight()==NULL){
+            TSTNode* new_right = new TSTNode();
+            node->setRight(new_right);
+            return insert(new_right, s);
 
-                else insert(left, s.substr(1, s.size()-1));
-            }
-            else insert(left, s);
-        }
-
-        else{
-            TSTNode* right = node->getRight();
-            if(right==NULL) {
-                right = new TSTNode(s[0]);
-
-                if(s.size()==1) {
-                    right->setEnd(true);
-                    return;
-                }
-
-                else insert(right, s.substr(1, s.size()-1));
-            }
-            else insert(right, s);
+        }else{
+            return insert(node->getRight(), s);
         }
     }
-
 
 }
 
@@ -131,7 +127,8 @@ TST::TST(){
 
 void TST::insert(string s) {
     //TSTNode* node = (this->root->search(this->root,s));
-    return this->root->insert(this->root, s);
+    if(!search(s))
+        this->root->insert(this->root, s);
 }
 
 bool TST::search(string s) {

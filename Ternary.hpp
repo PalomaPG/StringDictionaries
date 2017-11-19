@@ -27,7 +27,7 @@ public:
     TSTNode* getRight();
     TSTNode* getMid();
     void setLeft(TSTNode* node);
-    void setRigth(TSTNode* node);
+    void setRight(TSTNode* node);
     void setMid(TSTNode* node);
     void setLabel(char label);
     char getLabel();
