@@ -52,7 +52,7 @@ public:
     Leaf();
     vector<unsigned int> getIndices();
     void setIndices(vector<unsigned int> newIndices);
-
+    void destroyMe(Node* node);
     void insert(string s, unsigned int index);
     Leaf* search(string s);
 

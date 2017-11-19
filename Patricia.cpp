@@ -4,7 +4,7 @@
 Node::Node(){}
 
 Node::~Node(){
-   delete[] this;
+   delete this;
 
 }
 
@@ -116,9 +116,6 @@ void NonLeaf::fakeInsert(Node *node, string s, unsigned int index) {
 
             }
         }
-
-
-
 }
 
 Leaf* NonLeaf::fakeSearch(Node *node, string s) {
@@ -207,21 +204,23 @@ void NonLeaf::destroyMe(Node* node) {
 
                 destroyMe(childs[i]);
             }
-            delete current->setLabels(vector<string>());
-            delete current;
+            current->setLabels(vector<string>());
+            free(current);
 
 
         }else{
-            Leaf* current = dynamic_cast<NonLeaf*>(node);
+            Leaf* current = dynamic_cast<Leaf*>(node);
             current->setIndices(vector<unsigned int>());
-            delete current;
+            free(current);
 
         }
     }
 }
 
 Leaf::Leaf(){
+
 }
+
 vector<unsigned int> Leaf::getIndices() {
     return this->indices;
 }
@@ -236,6 +235,10 @@ void Leaf::insert(string s, unsigned int index) {
 
 Leaf* Leaf::search(string s){
     return this;
+}
+
+void Leaf:: destroyMe(Node* node){
+
 }
 
 Patricia::Patricia(){
@@ -267,4 +270,5 @@ vector<unsigned int> Patricia::search(string s) {
 Patricia::~Patricia() {
 
         this->root->destroyMe(this->root);
+        this->root=NULL;
 }

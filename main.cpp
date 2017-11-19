@@ -6,8 +6,8 @@ void testPatricia();
 void testTernary();
 
 int main(){
-    testTernary();
-    //testPatricia();
+    //testTernary();
+    testPatricia();
     /*
 	Processor *processor = new Processor("/home/paloma/Documents/Personal/C++/Tarea2/input/", 100);
     processor->setTexts();
@@ -43,7 +43,7 @@ void testPatricia(){
 
     for(unsigned int i=0; i<v.size(); i++)
         cout << v[i] << endl;
-
+    delete paty;
 }
 
 void testTernary(){
