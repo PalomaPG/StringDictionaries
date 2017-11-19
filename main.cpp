@@ -3,6 +3,8 @@
 using namespace std;
 
 void testInsertion(int i);
+void PatriciaInsertAndSearch(Processor* processor);
+void LPHInsertAndSearch(Processor *processor);
 
 int main(){
 
@@ -20,6 +22,7 @@ void testInsertion(int i){
     processor->readText();
     processor->verifyNofWords();
     PatriciaInsertAndSearch(processor);
+    //LPHInsertAndSearch(processor);
 }
 
 void PatriciaInsertAndSearch(Processor *processor){

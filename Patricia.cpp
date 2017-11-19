@@ -134,7 +134,6 @@ Leaf* NonLeaf::fakeSearch(Node *node, string s) {
         if(i==labels.size()) return NULL;
         else{
             string label = labels[i];
-            cout << label << endl;
             vector<Node*> children = nonleaf->getChildren();
             if(label.compare(s)==0 && dynamic_cast<Leaf*>(children[i])) {
                 return dynamic_cast<Leaf*>(children[i]);
@@ -145,7 +144,6 @@ Leaf* NonLeaf::fakeSearch(Node *node, string s) {
                     return NULL;
                 }
                 else{
-                    //indexof label... if not return NULL
                     if(s.find(label)==0){
 
                         Node* child = children[i];

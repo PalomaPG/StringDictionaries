@@ -31,14 +31,13 @@ void Processor::selectWords(string line){
     vector<string> ws =split(line);
     double r;
     /*Selecciona las palabras de acuerdo a criterio azaroso*/
-    cout << "seleccionando palabras" <<endl;
     for(unsigned int j=0; j<ws.size(); j++){
         words.push_back(ws[j]);
         count++;
         r = ((double) rand() / (RAND_MAX));
         if(r>0.5) {
-            if(sample_words.size()<n_words && (ws.at(j)).length()>0)
-                sample_words.push_back(ws[j]);
+            if(sample.size()<n_words && (ws.at(j)).length()>0)
+                sample.push_back(ws[j]);
 
             else break;
         }
@@ -96,7 +95,6 @@ void Processor::readText() {
     string line;
     ifstream infile (file_path);
     if(infile.is_open()){
-        cout << "open file to read" << endl;
         while(getline(infile, line)){
             if(count>=n_words) break;
             line = this->toLowerCase(line);
@@ -133,15 +131,15 @@ void Processor::insertIntoLPH(vector<string> v){
     for(unsigned  int i=0; i<v.size(); i++)
         lph->insert(v.at(i));
 }
-/*
+
 void Processor::initPatricia() {
     patricia = new Patricia();
 
-}*/
+}
 
 
 vector<string> Processor::getSample() {
-    return this->sample_words;
+    return this->sample;
 }
 
 
@@ -175,10 +173,15 @@ void Processor::searchSampleLPH() {
 
 void Processor::insertWordsPatricia() {
 
+    for(unsigned int i=0; i<words.size(); i++)
+        patricia->insert(words[i], i);
+
 }
 
 void Processor::searchSamplePatricia() {
 
+    for(unsigned int i=0; i<sample.size(); i++)
+        patricia->search(sample[i]);
 }
 
 void Processor::insertWordsLPH() {

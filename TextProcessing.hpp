@@ -36,7 +36,7 @@ class Processor{
 
         string file_path;
         vector <string> words;
-        vector <string> sample_words;
+        vector <string> sample;
         unsigned int n_words;
         unsigned int count=0;
         Patricia* patricia;
