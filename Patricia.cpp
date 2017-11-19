@@ -4,7 +4,7 @@
 Node::Node(){}
 
 Node::~Node(){
-   delete this;
+   delete[] this;
 
 }
 
@@ -22,16 +22,14 @@ Leaf* NonLeaf::search(string s) {
 
 void NonLeaf::fakeInsert(Node *node, string s, unsigned int index) {
 
-    Leaf* leaf = fakeSearch(node, s); /*busqueda*/
 
-    if(leaf==NULL){/*Si no existe en este arbol*/
 
         NonLeaf* current = dynamic_cast<NonLeaf*>(node);/* Asumimos que comenzamos en nodo no hoja*/
 
         if(current!=NULL){
 
             vector<string> labels = current->getLabels();
-            int i;
+            unsigned int i;
             /*REvisar labels*/
             for(i=0; i<labels.size(); i++){
                 if(labels[i][0]==s[0]) break;
@@ -119,11 +117,7 @@ void NonLeaf::fakeInsert(Node *node, string s, unsigned int index) {
             }
         }
 
-    }else{
-        vector<unsigned int> new_indices = leaf->getIndices();
-        new_indices.push_back(index);
-        leaf->setIndices(new_indices);
-    }
+
 
 }
 
@@ -134,7 +128,7 @@ Leaf* NonLeaf::fakeSearch(Node *node, string s) {
     if(nonleaf!=NULL){
         vector<string> labels= nonleaf->getLabels();
 
-        int i;
+        unsigned int i;
         for(i=0; i<labels.size(); i++){
             if(labels[i][0]==s[0]){
                 break;
@@ -194,7 +188,7 @@ void NonLeaf::setChildren(vector<Node *> newChildren) {
 
 string NonLeaf::getMaxPref(string label, string word) {
 
-    int i;
+    unsigned int i;
     for(i=0; i<word.size();i++){
         if(label[i]!=word[i]) break;
     }
@@ -226,12 +220,23 @@ Patricia::Patricia(){
 }
 
 void Patricia::insert(string s, unsigned int i) {
-    this->root->insert(s, i);
+
+    Leaf* leaf = this->root->search(s); /*busqueda*/
+
+    if(leaf==NULL) {/*Si no existe en este arbol*/
+        this->root->insert(s, i);
+    }
+    else{
+        vector<unsigned int> new_indices = leaf->getIndices();
+        new_indices.push_back(i);
+        leaf->setIndices(new_indices);
+    }
+
 }
 
 vector<unsigned int> Patricia::search(string s) {
 
-    Leaf* leaf = this->root->search(s);
-    if(leaf==NULL) return vector<unsigned int>();
-    else return leaf->getIndices();
+    Leaf* leaf=  this->root->search(s);
+    return leaf==NULL? vector<unsigned int>() : leaf->getIndices();
+
 }

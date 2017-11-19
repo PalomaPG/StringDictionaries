@@ -66,5 +66,6 @@ public:
     Patricia();
     void insert(string s, unsigned int i);
     vector<unsigned int> search(string s);
+
 };
 #endif

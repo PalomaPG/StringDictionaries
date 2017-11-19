@@ -12,7 +12,8 @@ using namespace std;
 
 class TSTNode{
 private:
-    char label;
+    char label='\0';
+    bool end=false;
     TSTNode* left = NULL;
     TSTNode* mid = NULL;
     TSTNode* right = NULL;
@@ -20,8 +21,7 @@ private:
 public:
     TSTNode();
     TSTNode(char label);
-    TSTNode(char label, TSTNode* mid);
-    bool search(TSTNode* node,string s);
+    TSTNode* search(TSTNode* node,string s);
     void insert(TSTNode* node, string s);
     TSTNode* getLeft();
     TSTNode* getRight();
@@ -31,6 +31,8 @@ public:
     void setMid(TSTNode* node);
     void setLabel(char label);
     char getLabel();
+    bool getEnd();
+    void setEnd(bool end);
 };
 
 

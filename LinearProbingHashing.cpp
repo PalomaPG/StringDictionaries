@@ -13,7 +13,7 @@ LinearProbingHashing::LinearProbingHashing() {
 
 LinearProbingHashing::~LinearProbingHashing() {
 
-    for(int i=0; i<size; i++)
+    for(unsigned int i=0; i<size; i++)
         delete &table[i];
 
     delete[] table;
@@ -23,7 +23,7 @@ unsigned int LinearProbingHashing::h(string s) {
 
     unsigned int calc_val=0;
 
-    for(int i=0; i<s.size(); i++){
+    for(unsigned int i=0; i<s.size(); i++){
         unsigned char c = s[i];
 
         calc_val+= (unsigned int)(c*pow((double)size, (double)i));
@@ -84,7 +84,7 @@ int LinearProbingHashing::search(string word) {
 
 void LinearProbingHashing::printTable() {
 
-    for(int i=0; i<size; i++){
+    for(unsigned int i=0; i<size; i++){
         string aux = table[i];
 
         if(aux.compare("")!=0){
@@ -100,7 +100,7 @@ void LinearProbingHashing::doubleTable() {
     delete []table;
     table = new string[size];
 
-    for(int i=0; i<aux_table->size(); i++){
+    for(unsigned int i=0; i<aux_table->size(); i++){
         string s = aux_table[i];
         insert(s);
     }
